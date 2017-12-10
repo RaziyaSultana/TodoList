@@ -1,0 +1,50 @@
+
+import React, { Component } from 'react';
+import {Text} from 'react-native';
+import {Content ,CardItem,Card,Body} from 'native-base';
+import AppBodyData from './appBodyData';
+import AppFooter from './appFooter';
+
+//import file from './photo';
+//const data = require('./photo.json');
+export default class AppBody extends Component {
+ 
+  constructor(){
+    super()
+    this.state={
+      data:[]
+    }
+  }
+
+  //http://192.168.1.4:8082/file.txt
+    getData(){
+    return fetch("https://jsonplaceholder.typicode.com/users")//instead of using localhost use ip address of server.--solved
+    .then((response) => response.json())
+    .then((responseJson) => {
+     //console.warn("data from photos json",data);
+     this.setState({data:responseJson});
+    })
+    .catch((error) => {
+    console.error(error);
+    });
+    
+    
+  }
+  componentDidMount(){
+    this.getData();
+  }
+  render() {
+    return (
+      <Content style={{marginTop:57}} >
+         <AppFooter/>
+         <AppBodyData data={this.state.data}/>
+        </Content>
+     );
+  }
+}
+
+
+
+  
+
+module.export=AppBody;
